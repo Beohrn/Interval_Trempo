@@ -1,30 +1,19 @@
 package com.example.bogdan.interval_trempo;
 
+import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.SimpleAdapter;
 
-/**
- * Created by bogdan on 08.08.2015.
- */
-public class ItemAdapter extends BaseAdapter {
-    @Override
-    public int getCount() {
-        return 0;
-    }
+import java.util.List;
+import java.util.Map;
+
+public class ItemAdapter implements SimpleAdapter.ViewBinder {
+
 
     @Override
-    public Object getItem(int position) {
-        return null;
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return 0;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        return null;
+    public boolean setViewValue(View view, Object data, String textRepresentation) {
+        return false;
     }
 }
