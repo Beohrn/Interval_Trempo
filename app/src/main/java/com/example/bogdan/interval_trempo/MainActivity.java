@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.SystemClock;
 import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -23,17 +25,22 @@ import java.util.ArrayList;
 
 public class MainActivity extends Activity {
 
+    public TextView textString;
+    ArrayAdapter<String> adapter;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        textString = new TextView(this);
 
         ListView listView = (ListView) findViewById(R.id.list_item_task);
         final EditText editText = (EditText) findViewById(R.id.edit_query);
         Button button = (Button) findViewById(R.id.addTask);
         final ArrayList<String> taskItems = new ArrayList<>();
 
-        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.itemtext, taskItems);
+        adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.itemtext, taskItems);
         listView.setAdapter(adapter);
 
         button.setOnClickListener(new OnClickListener() {
@@ -41,7 +48,9 @@ public class MainActivity extends Activity {
             public void onClick(View v) {
                 String string = editText.getText().toString();
 
-                taskItems.add(0, string);
+                new MyTask().execute();
+
+                taskItems.add(0, textString.getText().toString());
                 adapter.notifyDataSetChanged();
                 editText.setText("");
             }
@@ -68,7 +77,28 @@ public class MainActivity extends Activity {
                 return true;
             }
         });
+    }
 
+    class MyTask extends AsyncTask<Void, Integer, Void> {
 
+        private int progress = 0;
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            textString.setText(values[0] + " %");
+
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+
+            while (progress < 100) {
+                progress++;
+                publishProgress(progress);
+                SystemClock.sleep(200);
+            }
+
+            return null;
+        }
     }
 }
