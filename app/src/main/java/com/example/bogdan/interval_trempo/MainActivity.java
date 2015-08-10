@@ -1,85 +1,74 @@
 package com.example.bogdan.interval_trempo;
 
 import android.app.Activity;
-import android.support.v7.app.AppCompatActivity;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.support.v7.app.AlertDialog;
+import android.view.KeyEvent;
 import android.view.Menu;
-import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.SimpleAdapter;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
 
 public class MainActivity extends Activity {
 
-
-//     имена атрибутов для Map
-    final String ATTRIBUTE_NAME_TEXT = "text";
-    final String ATTRIBUTE_NAME_TEXT2 = "text2";
-
-    ListView lvSimple;
-
-    /** Called when the activity is first created. */
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // массивы данных
-        String[] textsOne = { "sometextOne", "sometextOne", "sometextOne",
-                "sometextOne", "sometextOne" };
+        ListView listView = (ListView) findViewById(R.id.list_item_task);
+        final EditText editText = (EditText) findViewById(R.id.edit_query);
+        Button button = (Button) findViewById(R.id.addTask);
+        final ArrayList<String> taskItems = new ArrayList<>();
 
-        String[] textsTwo = { "sometextTwo", "sometextTwo", "sometextTwo",
-                "sometextTwo", "sometextTwo" };
+        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.itemtext, taskItems);
+        listView.setAdapter(adapter);
 
-        // упаковываем данные в понятную для адаптера структуру
-        ArrayList<Map<String, Object>> data = new ArrayList<Map<String, Object>>(
-                textsOne.length);
-        Map<String, Object> m;
-        for (int i = 0; i < textsOne.length; i++) {
-            m = new HashMap<String, Object>();
-            m.put(ATTRIBUTE_NAME_TEXT, textsOne[i]);
-            m.put(ATTRIBUTE_NAME_TEXT2, textsTwo[i]);
-            data.add(m);
-        }
+        button.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String string = editText.getText().toString();
 
-        // массив имен атрибутов, из которых будут читаться данные
-        String[] from = { ATTRIBUTE_NAME_TEXT, ATTRIBUTE_NAME_TEXT2};
-        // массив ID View-компонентов, в которые будут вставлять данные
-        int[] to = { R.id.helloText, R.id.worldText};
+                taskItems.add(0, string);
+                adapter.notifyDataSetChanged();
+                editText.setText("");
+            }
+        });
 
-        // создаем адаптер
-        SimpleAdapter sAdapter = new SimpleAdapter(this, data, R.layout.item,
-                from, to);
 
-        // определяем список и присваиваем ему адаптер
-        lvSimple = (ListView) findViewById(R.id.list_item);
-        lvSimple.setAdapter(sAdapter);
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+                AlertDialog.Builder adb = new AlertDialog.Builder(MainActivity.this);
+                adb.setTitle("Delete?");
+                adb.setMessage("Are you sure you want to delete " + position);
+                final int positionToRemove = position;
+                adb.setNegativeButton("Cancel", null);
+                adb.setPositiveButton("Ok", new AlertDialog.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        taskItems.remove(positionToRemove);
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+                adb.show();
+
+                return true;
+            }
+        });
+
+
     }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-    int id = item.getItemId();
-
-    //noinspection SimplifiableIfStatement
-    if (id == R.id.action_settings) {
-        return true;
-    }
-
-    return super.onOptionsItemSelected(item);
-}
 }
