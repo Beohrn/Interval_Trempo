@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -17,6 +18,8 @@ public class ProgressInfo {
     private Integer size;
     private Integer progress;
     private ProgressBar progressBar;
+    private TextView textView;
+    private Integer count;
 
     public ProgressInfo(Integer size) {
         this.size = size;
@@ -46,6 +49,24 @@ public class ProgressInfo {
 
     public void setSize(Integer size) {
         this.size = size;
+    }
+
+    public void setCount(Integer count) {
+        this.count = count;
+    }
+
+    public String getCount() {
+
+        return Integer.toString(count);
+    }
+
+    public TextView getTextView() {
+
+        return textView;
+    }
+
+    public void setTextView(TextView textView) {
+        this.textView = textView;
     }
 }
 
