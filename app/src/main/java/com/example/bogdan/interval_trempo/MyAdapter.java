@@ -1,38 +1,75 @@
 package com.example.bogdan.interval_trempo;
 
+import android.content.Context;
+import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.ProgressBar;
+
+import java.util.List;
 
 /**
  * Created by bogdan on 10.08.2015.
  */
-public class MyAdapter extends BaseAdapter {
+public class MyAdapter extends ArrayAdapter<ProgressInfo> {
 
-    MainActivity activity;
-
-    @Override
-    public int getCount() {
-        return 0;
+    private static class ViewHolder {
+        ProgressBar progressBar;
+        ProgressInfo progressInfo;
+        Button button;
     }
 
-    @Override
-    public Object getItem(int position) {
-        return null;
+    public MyAdapter(Context context, int resource, List<ProgressInfo> objects) {
+        super(context, resource, objects);
     }
 
-    @Override
-    public long getItemId(int position) {
-        return 0;
-    }
+
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        LayoutInflater inflater = (LayoutInflater) activity.getSystemService(activity.getApplicationContext().LAYOUT_INFLATER_SERVICE);
+        View view = convertView;
+        final ProgressInfo info = getItem(position);
 
-        return null;
+        ViewHolder holder = null;
+
+        if (view == null) {
+            LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            view = inflater.inflate(R.layout.progress_row, parent, false);
+            holder = new ViewHolder();
+            holder.progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+            holder.button = (Button) view.findViewById(R.id.button2);
+            holder.progressInfo = info;
+
+            view.setTag(holder);
+        } else {
+            holder = (ViewHolder) view.getTag();
+
+            holder.progressInfo.setProgressBar(null);
+            holder.progressInfo = info;
+            holder.progressInfo.setProgressBar(holder.progressBar);
+        }
+
+        holder.progressBar.setProgress(info.getProgress());
+        holder.progressBar.setMax(info.getSize());
+        info.setProgressBar(holder.progressBar);
+        holder.button.setEnabled(true);
+        final Button button = holder.button;
+
+        holder.button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                button.setEnabled(false);
+                button.invalidate();
+                MyTask task = new MyTask(info);
+                task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            }
+        });
+
+        return view;
     }
 }

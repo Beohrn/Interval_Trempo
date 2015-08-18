@@ -1,28 +1,21 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/edit_query"/>
-
+    android:layout_height="match_parent" >
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="Add Task"
         android:id="@+id/addTask"
-        android:text="add new task"/>
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Start Asyns Task"
-        android:id="@+id/startTask"/>
     <ListView
+        android:id="@+id/progressListView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/list_item_task"></ListView>
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/addTask">
+    </ListView>
 
-</LinearLayout>
+</RelativeLayout>
