@@ -51,7 +51,6 @@ public class MyAdapter extends ArrayAdapter<ProgressInfo> {
             view.setTag(holder);
         } else {
             holder = (ViewHolder) view.getTag();
-
             holder.progressInfo.setProgressBar(null);
             holder.progressInfo = info;
             holder.progressInfo.setProgressBar(holder.progressBar);
@@ -61,10 +60,10 @@ public class MyAdapter extends ArrayAdapter<ProgressInfo> {
         holder.progressBar.setProgress(info.getProgress());
         holder.progressBar.setMax(info.getSize());
         info.setProgressBar(holder.progressBar);
+        info.setTextView(holder.textView);
         holder.button.setEnabled(true);
         final Button button = holder.button;
 
-        final ViewHolder finalHolder = holder;
         holder.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -74,9 +73,7 @@ public class MyAdapter extends ArrayAdapter<ProgressInfo> {
                 MyTask task = new MyTask(info);
                 task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
-//                if (finalHolder.textView != null) {
-//                    finalHolder.textView.setText(info.getCount());
-//                }
+
             }
         });
 

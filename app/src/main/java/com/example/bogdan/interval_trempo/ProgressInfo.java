@@ -55,9 +55,9 @@ public class ProgressInfo {
         this.count = count;
     }
 
-    public String getCount() {
+    public Integer getCount() {
 
-        return Integer.toString(count);
+        return count;
     }
 
     public TextView getTextView() {

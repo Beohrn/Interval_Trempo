@@ -20,11 +20,16 @@ public class MyTask extends AsyncTask<Void, Integer, Void> {
     @Override
     protected void onProgressUpdate(Integer... values) {
         info.setProgress(values[0]);
+
         ProgressBar bar = info.getProgressBar();
+        TextView textView = info.getTextView();
 
         if (bar != null) {
+
+            textView.setText(info.getProgress().toString());
             bar.setProgress(info.getProgress());
             bar.invalidate();
+            textView.invalidate();
 
         }
     }
@@ -39,7 +44,6 @@ public class MyTask extends AsyncTask<Void, Integer, Void> {
                 e.printStackTrace();
             }
             publishProgress(i);
-            count--;
 
 
         }
