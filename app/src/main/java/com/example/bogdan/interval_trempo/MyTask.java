@@ -12,42 +12,52 @@ public class MyTask extends AsyncTask<Void, Integer, Void> {
 
     final ProgressInfo info;
     private int count;
+    TextView textView;
+    MainActivity mainActivity;
+    ProgressBar bar;
+
 
     public MyTask(ProgressInfo info) {
         this.info = info;
     }
 
     @Override
-    protected void onProgressUpdate(Integer... values) {
-        info.setProgress(values[0]);
-
-        ProgressBar bar = info.getProgressBar();
-        TextView textView = info.getTextView();
-
-        if (bar != null) {
-
-            textView.setText(info.getProgress().toString());
-            bar.setProgress(info.getProgress());
-            bar.invalidate();
-            textView.invalidate();
-
-        }
+    protected void onPreExecute() {
+        super.onPreExecute();
+        bar = info.getProgressBar();
+        textView = info.getTextView();
     }
 
     @Override
+    protected void onProgressUpdate(Integer... values) {
+        super.onProgressUpdate(values);
+        info.setProgress(values[0]);
+        textView.setText(values[0].toString());
+        if (bar != null) {
+            bar.setProgress(info.getProgress());
+            bar.invalidate();
+        }
+    }
+
+
+    @Override
     protected Void doInBackground(Void... voids) {
-        count = info.getSize();
-        for (int i = 0; i < info.getSize(); i++) {
+
+        for (int i = 0; i <= info.getSize(); i++) {
             try {
-                Thread.sleep(2);
+                Thread.sleep(16);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             publishProgress(i);
-
-
         }
-
         return null;
+    }
+
+    @Override
+    protected void onPostExecute(Void aVoid) {
+        super.onPostExecute(aVoid);
+        bar = info.getProgressBar();
+        textView = info.getTextView();
     }
 }

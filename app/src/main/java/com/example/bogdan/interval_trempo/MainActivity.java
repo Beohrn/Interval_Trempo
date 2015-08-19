@@ -18,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,10 +27,12 @@ import java.util.List;
 
 public class MainActivity extends Activity {
 
+    private RelativeLayout relativeLayout;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+       // relativeLayout = (RelativeLayout) findViewById(R.id.relative_Layout);
 
         final ListView listView = (ListView) findViewById(R.id.progressListView);
         Button button = (Button) findViewById(R.id.addTask);
@@ -40,7 +43,7 @@ public class MainActivity extends Activity {
         button.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                items.add(new ProgressInfo(1000));
+                items.add(new ProgressInfo(300));
                 adapter.notifyDataSetChanged();
             }
         });
@@ -65,6 +68,11 @@ public class MainActivity extends Activity {
                 return true;
             }
         });
+    }
+
+    public RelativeLayout getRelativeLayout() {
+        relativeLayout = (RelativeLayout) findViewById(R.id.relative_Layout);
+        return relativeLayout;
     }
 
 }

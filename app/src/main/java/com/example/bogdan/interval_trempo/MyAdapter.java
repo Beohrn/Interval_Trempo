@@ -56,7 +56,7 @@ public class MyAdapter extends ArrayAdapter<ProgressInfo> {
             holder.progressInfo.setProgressBar(holder.progressBar);
         }
 
-        holder.textView.setText(info.getSize().toString());
+        holder.textView.setText("...");
         holder.progressBar.setProgress(info.getProgress());
         holder.progressBar.setMax(info.getSize());
         info.setProgressBar(holder.progressBar);
