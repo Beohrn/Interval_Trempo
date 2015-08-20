@@ -30,7 +30,7 @@ public class MyTask extends AsyncTask<Void, Integer, Void> {
         info.setProgressState(ProgressInfo.ProgressState.PROCESSING);
         for (int i = 0; i <= info.getSize(); ++i) {
             try {
-                Thread.sleep(16);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

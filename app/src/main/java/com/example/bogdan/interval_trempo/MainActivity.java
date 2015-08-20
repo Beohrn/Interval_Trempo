@@ -1,6 +1,8 @@
 package com.example.bogdan.interval_trempo;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,9 +31,11 @@ public class MainActivity extends Activity {
         button.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 items.add(new ProgressInfo(Integer.valueOf(String.valueOf(editText.getText()))));
-                editText.setText("");
+                editText.setText(null);
                 listView.setAdapter(new MyAdapter(getApplicationContext(), R.id.progressListView, items));
+
 
             }
         });
