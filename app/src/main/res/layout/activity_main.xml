@@ -17,6 +17,17 @@
         android:layout_height="wrap_content"
         android:text="Add Task"
         android:id="@+id/addButton"
+        android:layout_below="@+id/editText"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="time"
+        android:ems="10"
+        android:id="@+id/editText"
+        android:hint="Enter the number"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
